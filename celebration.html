@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Good Choice 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { margin:0; min-height:100vh; display:flex; justify-content:center; align-items:center; font-family:'Quicksand',sans-serif; background:linear-gradient(160deg,#ffd6e8,#fff1f7); overflow:hidden; padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);}
+.card { position:relative; background:#fff; width:92%; max-width:380px; padding:40px 25px 45px; border-radius:28px; text-align:center; box-shadow:0 25px 50px rgba(255,105,180,0.25); animation:pop 0.3s ease forwards;}
+@keyframes pop {0%{transform:scale(0.9);}50%{transform:scale(1.05);}100%{transform:scale(1);}}
+h1 { font-family:'Pacifico',cursive;color:#ff5fa2;font-size:34px;margin-bottom:10px;}
+.message { font-size:18px;color:#ff5fa2;font-weight:600;line-height:1.5;}
+.hearts,.confetti { position:fixed; inset:0; pointer-events:none;}
+.heart,.confetti-piece { position:absolute; font-size:18px; animation:float 6s linear forwards; opacity:0.6;}
+@keyframes float {from{transform:translateY(110vh) scale(1);}to{transform:translateY(-10vh) scale(1.4);}}
+@keyframes confettiFall {0%{transform:translateY(0) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+<div class="hearts"></div>
+<div class="confetti"></div>
+<div class="card">
+<h1>Good Choice 💗</h1>
+<div class="message" id="message">
+You said yes! 💖💖💖<br><br>
+PS: There’s a little surprise package waiting for you outside 🌸✨
+</div>
+</div>
+
+<script>
+const heartsContainer=document.querySelector(".hearts");
+const confettiContainer=document.querySelector(".confetti");
+const card=document.querySelector(".card");
+
+// Haptic feedback on load for excitement
+if(navigator.vibrate) navigator.vibrate(100);
+
+// Confetti burst
+for(let i=0;i<60;i++){
+  const piece=document.createElement("div");
+  piece.className="confetti-piece";
+  piece.textContent=["🎉","💖","✨","💗","🌸"][Math.floor(Math.random()*5)];
+  piece.style.left=Math.random()*100+"vw";
+  piece.style.fontSize=Math.random()*18+14+"px";
+  piece.style.animation=`confettiFall ${Math.random()*1+2}s linear forwards`;
+  confettiContainer.appendChild(piece);
+  setTimeout(()=>piece.remove(),2500);
+}
+
+// Floating hearts continuously
+setInterval(()=>{
+  const heart=document.createElement("div");
+  heart.className="heart";
+  heart.textContent="💗";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.fontSize=Math.random()*14+16+"px";
+  heartsContainer.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+},500);
+
+// Card bounce
+card.style.animation="pop 0.4s ease forwards";
+</script>
+</body>
+</html>
