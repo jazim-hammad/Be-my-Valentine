@@ -64,22 +64,26 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const card = document.querySelector(".card");
 
-function moveNoButton(){
-  const rect = card.getBoundingClientRect();
-  const padding = 20;
-  const safeTop = 10;
-  const safeBottom = rect.height - noBtn.offsetHeight - 20;
-  const safeLeft = padding;
-  const safeRight = rect.width - noBtn.offsetWidth - padding;
-  if(safeBottom<=safeTop||safeRight<=safeLeft) return;
-  if(navigator.vibrate) navigator.vibrate(50);
-  const x=Math.random()*(safeRight-safeLeft)+safeLeft;
-  const y=Math.random()*(safeBottom-safeTop)+safeTop;
-  noBtn.style.left=x+"px";
-  noBtn.style.top=y+"px";
-  noBtn.style.transform="none";
-}
+function moveNoButton() {
+  const padding = 10; // margin from edges
+  const cardWidth = card.offsetWidth;
+  const cardHeight = card.offsetHeight;
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
 
+  const safeLeft = padding;
+  const safeRight = cardWidth - btnWidth - padding;
+  const safeTop = padding;
+  const safeBottom = cardHeight - btnHeight - padding;
+
+  // Random position inside safe zone
+  const x = Math.random() * (safeRight - safeLeft) + safeLeft;
+  const y = Math.random() * (safeBottom - safeTop) + safeTop;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+  
 noBtn.addEventListener("touchstart", moveNoButton);
 noBtn.addEventListener("click", moveNoButton);
 
