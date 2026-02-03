@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>For Basmah 💖</title>
+<title>To My Sweetheart 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -14,9 +14,8 @@ body {
   justify-content:center;
   align-items:center;
   font-family:'Quicksand',sans-serif;
-  background:linear-gradient(160deg, #ffd6e8, #fff1f7);
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-           env(safe-area-inset-bottom) env(safe-area-inset-left);
+  background:linear-gradient(160deg,#ffd6e8,#fff1f7);
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   overflow:hidden;
 }
 .card {
@@ -24,15 +23,14 @@ body {
   background:#fff;
   width:92%;
   max-width:380px;
-  padding:40px 25px 45px;
+  padding:30px 20px 50px;
   border-radius:28px;
   text-align:center;
   box-shadow:0 25px 50px rgba(255,105,180,0.25);
 }
 h1 { font-family:'Pacifico',cursive; color:#ff5fa2; font-size:34px; margin-bottom:10px; }
-p { color:#ff7eb3; font-size:17px; margin-bottom:18px; line-height:1.4; }
+p { color:#ff7eb3; font-size:17px; margin-bottom:16px; line-height:1.4; }
 .hint { font-size:14px; color:#ff9acb; margin-bottom:25px; font-style:italic; }
-.buttons { position:relative; height:130px; }
 button {
   border:none;
   padding:16px 34px;
@@ -43,20 +41,22 @@ button {
   position:absolute;
   left:50%;
   transform:translateX(-50%);
+  z-index:2;
 }
-#yes { background:#ff5fa2; color:white; top:10px; z-index:2; }
-#no { background:#ffe3f0; color:#ff5fa2; top:75px; z-index:1; transition:top 0.15s ease,left 0.15s ease; }
+#yes { background:#ff5fa2; color:white; bottom:20px; } /* YES stays near bottom */
+#no { background:#ffe3f0; color:#ff5fa2; top:20px; } /* initial NO position, will move via JS */
 </style>
 </head>
 <body>
+
 <div class="card">
-<h1>To my Sweetheart 💕</h1>
-<p id="question">Will you be my Valentine?<br>You make me the best version of myself 🩷</p>
-<div class="hint" id="hint">Psst… the “No” button is a bit shy 🙈<br>Try catching it 😆</div>
-<div class="buttons">
+  <h1>To My Sweetheart 💕</h1>
+  <p id="question">Will you be my Valentine?<br>You make everything softer and brighter 🩷</p>
+  <div class="hint" id="hint">Psst… the “No” button is a bit shy 🙈<br>Try catching it 😆</div>
+
+  <!-- Buttons are directly in card now -->
   <button id="yes">Yes 💖</button>
   <button id="no">No 🙈</button>
-</div>
 </div>
 
 <script>
@@ -65,7 +65,7 @@ const yesBtn = document.getElementById("yes");
 const card = document.querySelector(".card");
 
 function moveNoButton() {
-  const padding = 10; // margin from edges
+  const padding = 10; // margin inside card
   const cardWidth = card.offsetWidth;
   const cardHeight = card.offsetHeight;
   const btnWidth = noBtn.offsetWidth;
@@ -73,8 +73,6 @@ function moveNoButton() {
 
   const safeLeft = padding;
   const safeRight = cardWidth - btnWidth - padding;
-
-  // Restrict Y to upper half of the card
   const safeTop = padding;
   const safeBottom = cardHeight / 2 - btnHeight - padding; // only upper half
 
@@ -84,20 +82,23 @@ function moveNoButton() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // Optional tiny haptic on jump
+  // Tiny haptic for playful effect
   if(navigator.vibrate) navigator.vibrate(40);
 }
-  
-noBtn.addEventListener("touchstart", moveNoButton);
+
+// Trigger move on click or touch
 noBtn.addEventListener("click", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
 
-yesBtn.addEventListener("click",()=>{
-  // Haptic feedback
-  if (navigator.vibrate) navigator.vibrate(100);
+// YES button click
+yesBtn.addEventListener("click", () => {
+  // Haptic feedback on YES
+  if(navigator.vibrate) navigator.vibrate(100);
 
-  // Go to second page
-  window.location.href="celebration.html";
+  // Go to celebration page
+  window.location.href = "celebration.html";
 });
 </script>
+
 </body>
 </html>
