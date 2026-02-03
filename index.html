@@ -157,19 +157,22 @@
     const message = document.getElementById("message");
 
     function moveNoButton() {
-      const card = document.querySelector(".card");
-      const rect = card.getBoundingClientRect();
+  const card = document.querySelector(".card");
+  const rect = card.getBoundingClientRect();
 
-      const maxX = rect.width - noBtn.offsetWidth;
-      const maxY = rect.height - noBtn.offsetHeight - 20;
+  const padding = 20;
+  const safeTop = 20;
+  const safeBottom = rect.height - noBtn.offsetHeight - 60;
+  const safeLeft = padding;
+  const safeRight = rect.width - noBtn.offsetWidth - padding;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
+  const x = Math.random() * (safeRight - safeLeft) + safeLeft;
+  const y = Math.random() * (safeBottom - safeTop) + safeTop;
 
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-      noBtn.style.transform = "none";
-    }
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+  noBtn.style.transform = "none";
+}
 
     noBtn.addEventListener("touchstart", moveNoButton);
     noBtn.addEventListener("click", moveNoButton);
