@@ -67,11 +67,12 @@ const card = document.querySelector(".card");
 function moveNoButton(){
   const rect = card.getBoundingClientRect();
   const padding = 20;
-  const safeTop = 20;
-  const safeBottom = rect.height - noBtn.offsetHeight - 60;
+  const safeTop = 10;
+  const safeBottom = rect.height - noBtn.offsetHeight - 20;
   const safeLeft = padding;
   const safeRight = rect.width - noBtn.offsetWidth - padding;
   if(safeBottom<=safeTop||safeRight<=safeLeft) return;
+  if(navigator.vibrate) navigator.vibrate(50);
   const x=Math.random()*(safeRight-safeLeft)+safeLeft;
   const y=Math.random()*(safeBottom-safeTop)+safeTop;
   noBtn.style.left=x+"px";
