@@ -88,7 +88,6 @@
       color: #ff5fa2;
       top: 75px;
       z-index: 1;
-      transition: top 0.15s ease, left 0.15s ease;
     }
 
     .message {
@@ -156,19 +155,16 @@
     const noBtn = document.getElementById("no");
     const yesBtn = document.getElementById("yes");
     const message = document.getElementById("message");
-    const card = document.querySelector(".card");
 
     function moveNoButton() {
+      const card = document.querySelector(".card");
       const rect = card.getBoundingClientRect();
 
-      const padding = 20;
-      const safeTop = 20;
-      const safeBottom = rect.height - noBtn.offsetHeight - 60;
-      const safeLeft = padding;
-      const safeRight = rect.width - noBtn.offsetWidth - padding;
+      const maxX = rect.width - noBtn.offsetWidth;
+      const maxY = rect.height - noBtn.offsetHeight - 20;
 
-      const x = Math.random() * (safeRight - safeLeft) + safeLeft;
-      const y = Math.random() * (safeBottom - safeTop) + safeTop;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
 
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
