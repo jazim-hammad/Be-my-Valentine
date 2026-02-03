@@ -83,6 +83,9 @@ noBtn.addEventListener("touchstart", moveNoButton);
 noBtn.addEventListener("click", moveNoButton);
 
 yesBtn.addEventListener("click",()=>{
+  // Haptic feedback
+  if (navigator.vibrate) navigator.vibrate(100);
+
   // Go to second page
   window.location.href="celebration.html";
 });
