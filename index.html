@@ -73,15 +73,19 @@ function moveNoButton() {
 
   const safeLeft = padding;
   const safeRight = cardWidth - btnWidth - padding;
-  const safeTop = padding;
-  const safeBottom = cardHeight - btnHeight - padding;
 
-  // Random position inside safe zone
+  // Restrict Y to upper half of the card
+  const safeTop = padding;
+  const safeBottom = cardHeight / 2 - btnHeight - padding; // only upper half
+
   const x = Math.random() * (safeRight - safeLeft) + safeLeft;
   const y = Math.random() * (safeBottom - safeTop) + safeTop;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
+
+  // Optional tiny haptic on jump
+  if(navigator.vibrate) navigator.vibrate(40);
 }
   
 noBtn.addEventListener("touchstart", moveNoButton);
