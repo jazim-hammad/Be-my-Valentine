@@ -6,7 +6,8 @@
 <title>To My Sweetheart 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
 body {
   margin:0;
   min-height:100vh;
@@ -15,22 +16,34 @@ body {
   align-items:center;
   font-family:'Quicksand',sans-serif;
   background:linear-gradient(160deg,#ffd6e8,#fff1f7);
-  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  padding:env(safe-area-inset-top) env(safe-area-inset-right)
+          env(safe-area-inset-bottom) env(safe-area-inset-left);
   overflow:hidden;
 }
+
 .card {
   position:relative;
   background:#fff;
   width:92%;
   max-width:380px;
-  padding:30px 20px 50px;
+  padding:30px 20px 80px;
   border-radius:28px;
   text-align:center;
   box-shadow:0 25px 50px rgba(255,105,180,0.25);
 }
+
 h1 { font-family:'Pacifico',cursive; color:#ff5fa2; font-size:34px; margin-bottom:10px; }
 p { color:#ff7eb3; font-size:17px; margin-bottom:16px; line-height:1.4; }
-.hint { font-size:14px; color:#ff9acb; margin-bottom:25px; font-style:italic; }
+.hint { font-size:14px; color:#ff9acb; margin-bottom:20px; font-style:italic; }
+
+/* Initial layout */
+.button-row {
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:10px;
+}
+
 button {
   border:none;
   padding:16px 34px;
@@ -38,25 +51,29 @@ button {
   font-size:18px;
   font-weight:600;
   cursor:pointer;
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:2;
 }
-#yes { background:#ff5fa2; color:white; bottom:20px; } /* YES stays near bottom */
-#no { background:#ffe3f0; color:#ff5fa2; top:20px; } /* initial NO position, will move via JS */
+
+#yes { background:#ff5fa2; color:white; }
+#no { background:#ffe3f0; color:#ff5fa2; }
+
+/* When NO becomes absolute */
+.no-absolute {
+  position:absolute !important;
+  z-index:3;
+}
 </style>
 </head>
 <body>
 
 <div class="card">
   <h1>To My Sweetheart 💕</h1>
-  <p id="question">Will you be my Valentine?<br>You make everything softer and brighter 🩷</p>
-  <div class="hint" id="hint">Psst… the “No” button is a bit shy 🙈<br>Try catching it 😆</div>
+  <p>Will you be my Valentine?<br>You make everything softer and brighter 🩷</p>
+  <div class="hint">Psst… the “No” button is a bit shy 🙈</div>
 
-  <!-- Buttons are directly in card now -->
-  <button id="yes">Yes 💖</button>
-  <button id="no">No 🙈</button>
+  <div class="button-row" id="buttonRow">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 🙈</button>
+  </div>
 </div>
 
 <script>
@@ -64,8 +81,25 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const card = document.querySelector(".card");
 
+let activated = false; // tracks first click
+
 function moveNoButton() {
-  const padding = 10; // margin inside card
+
+  // On first interaction convert to absolute positioning
+  if (!activated) {
+    const rect = noBtn.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+
+    noBtn.classList.add("no-absolute");
+
+    // place at same visual position
+    noBtn.style.left = (rect.left - cardRect.left) + "px";
+    noBtn.style.top = (rect.top - cardRect.top) + "px";
+
+    activated = true;
+  }
+
+  const padding = 10;
   const cardWidth = card.offsetWidth;
   const cardHeight = card.offsetHeight;
   const btnWidth = noBtn.offsetWidth;
@@ -74,7 +108,7 @@ function moveNoButton() {
   const safeLeft = padding;
   const safeRight = cardWidth - btnWidth - padding;
   const safeTop = padding;
-  const safeBottom = cardHeight / 2 - btnHeight - padding; // only upper half
+  const safeBottom = cardHeight / 2 - btnHeight - padding; // upper half only
 
   const x = Math.random() * (safeRight - safeLeft) + safeLeft;
   const y = Math.random() * (safeBottom - safeTop) + safeTop;
@@ -82,20 +116,14 @@ function moveNoButton() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // Tiny haptic for playful effect
-  if(navigator.vibrate) navigator.vibrate(40);
+  if (navigator.vibrate) navigator.vibrate(40);
 }
 
-// Trigger move on click or touch
 noBtn.addEventListener("click", moveNoButton);
 noBtn.addEventListener("touchstart", moveNoButton);
 
-// YES button click
 yesBtn.addEventListener("click", () => {
-  // Haptic feedback on YES
-  if(navigator.vibrate) navigator.vibrate(100);
-
-  // Go to celebration page
+  if (navigator.vibrate) navigator.vibrate(100);
   window.location.href = "celebration.html";
 });
 </script>
