@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>To My Sweetheart 💖</title>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
 * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 
@@ -36,7 +37,6 @@ h1 { font-family:'Pacifico',cursive; color:#ff5fa2; font-size:34px; margin-botto
 p { color:#ff7eb3; font-size:17px; margin-bottom:16px; line-height:1.4; }
 .hint { font-size:14px; color:#ff9acb; margin-bottom:20px; font-style:italic; }
 
-/* Initial layout */
 .button-row {
   display:flex;
   justify-content:center;
@@ -51,15 +51,36 @@ button {
   font-size:18px;
   font-weight:600;
   cursor:pointer;
+  transition: transform 0.25s ease, left 0.35s ease, top 0.35s ease;
 }
 
-#yes { background:#ff5fa2; color:white; }
-#no { background:#ffe3f0; color:#ff5fa2; }
+#yes {
+  background:#ff5fa2;
+  color:white;
+}
 
-/* When NO becomes absolute */
+#no {
+  background:#ffe3f0;
+  color:#ff5fa2;
+}
+
+/* absolute mode */
 .no-absolute {
   position:absolute !important;
   z-index:3;
+}
+
+/* wiggle animation */
+@keyframes wiggle {
+  0% { transform:translateX(0) rotate(0deg); }
+  25% { transform:translateX(-3px) rotate(-2deg); }
+  50% { transform:translateX(3px) rotate(2deg); }
+  75% { transform:translateX(-2px) rotate(-1deg); }
+  100% { transform:translateX(0) rotate(0deg); }
+}
+
+.wiggle {
+  animation: wiggle 0.35s ease;
 }
 </style>
 </head>
@@ -70,7 +91,7 @@ button {
   <p>Will you be my Valentine?<br>You make everything softer and brighter 🩷</p>
   <div class="hint">Psst… the “No” button is a bit shy 🙈</div>
 
-  <div class="button-row" id="buttonRow">
+  <div class="button-row">
     <button id="yes">Yes 💖</button>
     <button id="no">No 🙈</button>
   </div>
@@ -81,18 +102,17 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const card = document.querySelector(".card");
 
-let activated = false; // tracks first click
+let activated = false;
+let yesScale = 1;
 
 function moveNoButton() {
 
-  // On first interaction convert to absolute positioning
+  // convert to absolute on first tap
   if (!activated) {
     const rect = noBtn.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
 
     noBtn.classList.add("no-absolute");
-
-    // place at same visual position
     noBtn.style.left = (rect.left - cardRect.left) + "px";
     noBtn.style.top = (rect.top - cardRect.top) + "px";
 
@@ -108,13 +128,22 @@ function moveNoButton() {
   const safeLeft = padding;
   const safeRight = cardWidth - btnWidth - padding;
   const safeTop = padding;
-  const safeBottom = cardHeight / 2 - btnHeight - padding; // upper half only
+  const safeBottom = cardHeight / 2 - btnHeight - padding;
 
   const x = Math.random() * (safeRight - safeLeft) + safeLeft;
   const y = Math.random() * (safeBottom - safeTop) + safeTop;
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
+
+  // wiggle effect
+  noBtn.classList.remove("wiggle");
+  void noBtn.offsetWidth;
+  noBtn.classList.add("wiggle");
+
+  // grow YES button slightly
+  yesScale += 0.06;
+  yesBtn.style.transform = `scale(${yesScale})`;
 
   if (navigator.vibrate) navigator.vibrate(40);
 }
